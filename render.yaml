@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: splitwise-backend
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: MONGODB_URI
+        sync: false # Requires inputting in the Render UI during setup
+      - key: PORT
+        value: 5000
