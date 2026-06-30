@@ -7,11 +7,13 @@ import ChartsView from './components/ChartsView';
 import ActivityFeed from './components/ActivityFeed';
 import AccountView from './components/AccountView';
 import CreateGroupModal from './components/CreateGroupModal';
+import PinLogin from './components/PinLogin';
 
 export default function App() {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [groups, setGroups] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [activeTab, setActiveTab] = useState('groups'); // 'groups', 'friends', 'activity', 'account'
   const [usdMode, setUsdMode] = useState(false);
@@ -123,6 +125,16 @@ export default function App() {
       <div style={{ backgroundColor: '#0b0c10', width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#ffffff', fontFamily: 'sans-serif' }}>
         Initializing Splitwise Clone...
       </div>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <PinLogin
+        onLoginSuccess={() => {
+          setIsLoggedIn(true);
+        }}
+      />
     );
   }
 
