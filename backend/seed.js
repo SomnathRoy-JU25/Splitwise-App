@@ -19,7 +19,7 @@ const seedData = async () => {
     await Settlement.deleteMany();
     console.log('Cleared database...');
 
-    // 1. Create Users
+    // 1. Create Users (Only Somnath and Souvik)
     const somnath = await User.create({
       name: 'Somnath Roy',
       email: 'somnathroy0340@gmail.com',
@@ -32,25 +32,7 @@ const seedData = async () => {
       avatar: '🧑'
     });
 
-    const ruhina = await User.create({
-      name: 'Ruhina K.',
-      email: 'ruhina.k@example.com',
-      avatar: '👩'
-    });
-
-    const amit = await User.create({
-      name: 'Amit B.',
-      email: 'amit@example.com',
-      avatar: '🧔'
-    });
-
-    const pooja = await User.create({
-      name: 'Pooja M.',
-      email: 'pooja@example.com',
-      avatar: '👩‍🦰'
-    });
-
-    console.log('Seeded Users (Somnath, Souvik, Ruhina, Amit, Pooja)...');
+    console.log('Seeded Users (Somnath, Souvik)...');
 
     // 2. Create Group
     const group = await Group.create({
@@ -61,7 +43,6 @@ const seedData = async () => {
     console.log('Seeded Group "Daily Spend"...');
 
     // 3. Create Expenses
-    // We want the balance to be exactly "You owe Souvik S. ₹36.00" (Somnath's balance: -36.00)
     const expenses = [
       {
         description: 'Room Setup Deposit',

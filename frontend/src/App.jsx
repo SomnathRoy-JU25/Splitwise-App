@@ -66,7 +66,7 @@ export default function App() {
       }
     }
     loadInitial();
-  }, [refreshTrigger]);
+  }, []);
 
   // Sync debts list
   useEffect(() => {
@@ -223,6 +223,11 @@ export default function App() {
               setUsdMode={setUsdMode}
               refreshTrigger={refreshTrigger}
               onRefresh={handleRefresh}
+              users={users}
+              onUserSwitch={(selectedUser) => {
+                setCurrentUser(selectedUser);
+                handleRefresh();
+              }}
             />
           )}
 
@@ -360,6 +365,11 @@ export default function App() {
               // Back arrow resets selectedGroup, returning to the mobile Groups List
               onBack={() => setSelectedGroup(null)}
               onRefresh={handleRefresh}
+              users={users}
+              onUserSwitch={(selectedUser) => {
+                setCurrentUser(selectedUser);
+                handleRefresh();
+              }}
             />
           ) : (
             // Groups List

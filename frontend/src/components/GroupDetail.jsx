@@ -11,7 +11,9 @@ export default function GroupDetail({
   setUsdMode,
   refreshTrigger,
   onBack,
-  onRefresh
+  onRefresh,
+  users = [],
+  onUserSwitch
 }) {
   const [data, setData] = useState(null);
   const [expenses, setExpenses] = useState([]);
@@ -120,7 +122,7 @@ export default function GroupDetail({
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80%', color: 'var(--text-secondary)' }}>
-        Loading daily spend details...
+        Loading spend details...
       </div>
     );
   }
@@ -164,14 +166,54 @@ export default function GroupDetail({
     <div style={{ position: 'relative', height: '100%' }}>
       {/* 1. Header */}
       <header className="group-header">
-        <div className="header-top">
-          <button className="header-icon-btn" onClick={onBack}>
+        <div className="header-top" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <button className="header-icon-btn" onClick={onBack} title="Back">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <line x1="19" y1="12" x2="5" y2="12"></line>
               <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
           </button>
-          <button className="header-icon-btn">
+          
+          {/* Header Persona Switcher Selector */}
+          {users.length > 0 && onUserSwitch && (
+            <div className="header-switcher-container" style={{ display: 'flex', alignItems: 'center' }}>
+              <select
+                value={currentUser?._id || ''}
+                onChange={(e) => {
+                  const selectedUser = users.find(u => u._id === e.target.value);
+                  if (selectedUser) onUserSwitch(selectedUser);
+                }}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  color: 'white',
+                  padding: '6px 14px 6px 10px',
+                  borderRadius: '16px',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  maxWidth: '180px',
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                  textAlignLast: 'center',
+                  backgroundPosition: 'right 8px center',
+                  backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='white' d='M0 0l5 5 5-5z'/></svg>")`,
+                  backgroundRepeat: 'no-repeat',
+                  paddingRight: '22px'
+                }}
+              >
+                {users.map(u => (
+                  <option key={u._id} value={u._id} style={{ backgroundColor: 'var(--bg-secondary)', color: 'white' }}>
+                    {u.name} {u._id === currentUser?._id ? '(You)' : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <button className="header-icon-btn" title="Settings">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="3"></circle>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
